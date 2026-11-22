@@ -1,0 +1,8 @@
+{
+  "name": "roplong-ai",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "latest"
+  }
+}
