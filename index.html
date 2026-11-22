@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ROPLONG AI - Super Assistant</title>
+
+    <style>
+        /* GENERAL SETTINGS */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #090711;
+            color: white;
+            min-height: 100vh;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* HEADER */
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 5%;
+            border-bottom: 1px solid #292038;
+            background: #100c1b;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        .logo h1 span {
+            color: #b58aff;
+        }
+
+        .status {
+            color: #bca9db;
+            font-size: 12px;
+        }
+
+        /* MAIN AREA */
+
+        main {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
+            padding: 45px 18px 30px;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .welcome-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .welcome h2 {
+            font-size: clamp(27px, 6vw, 40px);
+            margin-bottom: 12px;
+        }
+
+        .welcome h2 span {
+            background: linear-gradient(
+                90deg,
+                #a78bfa,
+                #e879f9
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .welcome p {
+            color: #aaa1bd;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* SUGGESTION CARDS */
+
+        .suggestions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .suggestion {
+            text-align: left;
+            background: #151020;
+            border: 1px solid #302344;
+            border-radius: 14px;
+            padding: 17px;
+            color: white;
+            transition: 0.2s;
+        }
+
+        .suggestion:hover {
+            border-color: #a78bfa;
+            background: #20152f;
+        }
+
+        .suggestion .icon {
+            display: block;
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .suggestion strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .suggestion small {
+            color: #aaa1bd;
+            line-height: 1.5;
+        }
+
+        /* CHAT AREA */
+
+        .chat-box {
+            background: #100c1b;
+            border: 1px solid #302344;
+            border-radius: 18px;
+            padding: 20px;
+            min-height: 220px;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            align-items: flex-start;
+        }
+
+        .avatar {
+            flex-shrink: 0;
+            width: 35px;
+            height: 35px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #302047;
+        }
+
+        .message-content {
+            min-width: 0;
+            flex: 1;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .message-content strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #c4a5fd;
+        }
+
+        .message-content p {
+            color: #e5dfef;
+            white-space: pre-wrap;
+        }
+
+        .user-message .avatar {
+            background: #49316a;
+        }
+
+        .user-message .message-content strong {
+            color: #e9d5ff;
+        }
+
+        /* INPUT AREA */
+
+        .input-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px;
+            background: #151020;
+            border: 1px solid #493365;
+            border-radius: 16px;
+        }
+
+        .input-area input {
+            flex: 1;
+            min-width: 0;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 12px 8px;
+        }
+
+        .input-area input::placeholder {
+            color: #8d829e;
+        }
+
+        .send-button {
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8b5cf6, #c026d3);
+            color: white;
+            padding: 12px 17px;
+            font-weight: bold;
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .note {
+            text-align: center;
+            font-size: 11px;
+            color: #847991;
+            line-height: 1.6;
+            margin-top: 13px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            border-top: 1px solid #292038;
+            color: #9388a5;
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #c4a5fd;
+        }
+
+        /* SMALL PHONE SCREENS */
+
+        @media (max-width: 480px) {
+            header {
+                padding: 15px;
+            }
+
+            .logo h1 {
+                font-size: 16px;
+            }
+
+            main {
+                padding: 35px 14px 25px;
+            }
+
+            .suggestions {
+                gap: 9px;
+            }
+
+            .suggestion {
+                padding: 13px;
+            }
+
+            .chat-box {
+                padding: 14px;
+            }
+
+            .send-button {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- WEBSITE HEADER -->
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">R</div>
+
+            <h1>ROP<span>LONG</span> AI</h1>
+        </div>
+
+        <div class="status">Your AI workspace</div>
+    </header>
+
+
+    <!-- MAIN WEBSITE CONTENT -->
+
+    <main>
+
+        <section class="welcome">
+            <div class="welcome-icon">🤖</div>
+
+            <h2>Welcome to <span>ROPLONG AI</span></h2>
+
+            <p>
+                Your ideas. Your intelligence. Your future.<br>
+                What would you like to explore today?
+            </p>
+        </section>
+
+
+        <!-- EXAMPLE QUESTIONS -->
+
+        <section class="suggestions">
+
+            <button class="suggestion"
+                    data-prompt="Teach me HTML from the beginning with simple examples.">
+                <span class="icon">💻</span>
+                <strong>Learn Coding</strong>
+                <small>Learn HTML, CSS and programming.</small>
+            </button>
+
+            <button class="suggestion"
+                    data-prompt="Help me understand a difficult school subject using simple examples.">
+                <span class="icon">📚</span>
+                <strong>Study Assistant</strong>
+                <small>Understand school subjects.</small>
+            </button>
+
+            <button class="suggestion"
+                    data-prompt="Help me write a professional business letter.">
+                <span class="icon">✍️</span>
+                <strong>Writing Help</strong>
+                <small>Improve your writing and ideas.</small>
+            </button>
+
+            <button class="suggestion"
+                    data-prompt="Give me ideas for starting a small business with limited resources.">
+                <span class="icon">💡</span>
+                <strong>Creative Ideas</strong>
+                <small>Explore projects and business ideas.</small>
+            </button>
+
+        </section>
+
+
+        <!-- CHAT MESSAGES -->
+
+        <section class="chat-box" id="chatBox" aria-live="polite">
+
+            <div class="message">
+                <div class="avatar">R</div>
+
+                <div class="message-content">
+                    <strong>ROPLONG AI</strong>
+
+                    <p>
+Welcome! 👋
+
+I'm the ROPLONG AI website prototype.
+
+You can type a message below to test the interface.
+
+The current version uses demonstration responses. Connecting a real AI model is our next step.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- MESSAGE INPUT -->
+
+        <form class="input-area" id="chatForm">
+
+            <input
+                type="text"
+                id="userInput"
+                placeholder="Ask ROPLONG AI anything..."
+                autocomplete="off"
+                aria-label="Type your message"
+                required
+            >
+
+            <button class="send-button" id="sendButton" type="submit">
+                Send ➤
+            </button>
+
+        </form>
+
+        <p class="note">
+            Prototype version · Demonstration responses only.
+            AI connection coming next.
+        </p>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+        Created by <strong>Kumzak Roplong Abiadun</strong><br><br>
+        © 2026 ROPLONG AI · Built to keep learning.
+    </footer>
+
+
+    <!-- JAVASCRIPT: CHAT INTERACTION -->
+
+    <script>
+        const chatBox = document.getElementById("chatBox");
+        const chatForm = document.getElementById("chatForm");
+        const userInput = document.getElementById("userInput");
+        const sendButton = document.getElementById("sendButton");
+
+        function addMessage(sender, text) {
+            const message = document.createElement("div");
+            message.className = "message";
+
+            if (sender === "You") {
+                message.classList.add("user-message");
+            }
+
+            const avatar = document.createElement("div");
+            avatar.className = "avatar";
+            avatar.textContent = sender === "You" ? "👤" : "R";
+
+            const content = document.createElement("div");
+            content.className = "message-content";
+
+            const name = document.createElement("strong");
+            name.textContent = sender;
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent = text;
+
+            content.appendChild(name);
+            content.appendChild(paragraph);
+
+            message.appendChild(avatar);
+            message.appendChild(content);
+
+            chatBox.appendChild(message);
+
+            message.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
+
+
+        function getDemoResponse(question) {
+            const q = question.toLowerCase();
+
+            if (q.includes("hello") || q.includes("hi")) {
+                return "Hello! 👋 Welcome to ROPLONG AI. What would you like to learn today?";
+            }
+
+            if (q.includes("html")) {
+                return "HTML is the language used to structure web pages. For example, <h1>Hello World</h1> creates a main heading. This is a demonstration response, not a live AI answer.";
+            }
+
+            if (q.includes("css")) {
+                return "CSS controls the appearance of a website, including colors, spacing, fonts, and layouts. This is a demonstration response, not a live AI answer.";
+            }
+
+            if (q.includes("business") || q.includes("money")) {
+                return "A useful first step is to identify a problem people need solved, develop a simple service, and show potential customers examples of your work. Be careful with offers that promise guaranteed money.";
+            }
+
+            if (q.includes("school") || q.includes("study")) {
+                return "Tell me the subject and topic you are studying. We can organize the material into simple explanations and examples. This is a demonstration response.";
+            }
+
+            if (q.includes("who created you") ||
+                q.includes("who made you")) {
+                return "I'm the ROPLONG AI website prototype created by Kumzak Roplong Abiadun. This prototype is not yet connected to an AI model.";
+            }
+
+            return "Thanks for trying ROPLONG AI! This version uses predefined demonstration responses. Once we connect an AI model through a secure backend, the assistant can generate responses to a much wider range of questions.";
+        }
+
+
+        function sendMessage(text) {
+            const question = text.trim();
+
+            if (!question) {
+                return;
+            }
+
+            addMessage("You", question);
+
+            userInput.value = "";
+            sendButton.disabled = true;
+            sendButton.textContent = "Wait...";
+
+            setTimeout(function () {
+                const answer = getDemoResponse(question);
+
+                addMessage("ROPLONG AI", answer);
+
+                sendButton.disabled = false;
+                sendButton.textContent = "Send ➤";
+                userInput.focus();
+            }, 400);
+        }
+
+
+        chatForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            sendMessage(userInput.value);
+        });
+
+
+        document.querySelectorAll(".suggestion").forEach(function (button) {
+            button.addEventListener("click", function () {
+                sendMessage(button.dataset.prompt);
+            });
+        });
+    </script>
+
+</body>
+</html>
